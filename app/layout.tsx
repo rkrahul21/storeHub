@@ -4,6 +4,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import { CartProvider } from "@/hooks/useCart";
 import { Header } from "@/components/Header";
 import "./globals.css";
+import { ThemeProvider } from "./components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,15 +37,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} ${inter.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-[#FAF7F2]">
-        <CartProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-        </CartProvider>
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-[#FAF7F2] dark:bg-[#14120E] text-[#1A1A1A] dark:text-[#FAF7F2] transition-colors duration-200">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <CartProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

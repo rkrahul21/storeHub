@@ -3,54 +3,58 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/hooks/useCart';
+import ThemeToggle from './ThemeToggle';
 
 export function Header() {
   const { itemCount } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="bg-[#FAF7F2] border-b border-[#F5F0E6] sticky top-0 z-50 shadow-sm">
+    <header className="bg-[#FAF7F2] dark:bg-[#14120E] border-b border-[#F5F0E6] dark:border-amber-500/15 sticky top-0 z-50 shadow-sm dark:shadow-[0_4px_30px_rgba(0,0,0,0.6)] transition-colors duration-200">
+  
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-[#1A1A1A]" style={{ fontFamily: "var(--font-playfair)" }}>
+            <span className="text-2xl font-bold text-[#1A1A1A] dark:text-[#FAF7F2]" style={{ fontFamily: "var(--font-playfair)" }}>
               storeHUB
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-6">
-            <Link href="/products" className="text-[#1A1A1A] hover:text-[#4B5563] font-medium transition-colors">
+            <Link href="/products" className="text-[#1A1A1A] dark:text-[#FAF7F2] hover:text-[#4B5563] dark:hover:text-[#A39E93] font-medium transition-colors">
               Products
             </Link>
             <Link
               href="/cart"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1A1A1A] hover:bg-[#4B5563] text-[#FAF7F2] font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[#1A1A1A] text-[#FAF7F2] hover:bg-[#4B5563] dark:bg-[#FAF7F2] dark:text-[#14120E] dark:hover:bg-[#F5F0E6] font-medium transition-colors"
             >
               <CartIcon />
               <span>Cart</span>
               {itemCount > 0 && (
-                <span className="ml-1 px-2 py-0.5 bg-[#FAF7F2] text-[#1A1A1A] text-xs font-bold rounded-full">
+                <span className="ml-1 px-2 py-0.5 bg-[#FAF7F2] text-[#1A1A1A] dark:bg-[#14120E] dark:text-[#FAF7F2] text-xs font-bold rounded-full">
                   {itemCount}
                 </span>
               )}
             </Link>
+            <div className="w-px h-6 bg-[#F5F0E6] dark:bg-[#2E2920]" /> 
+            
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+            </div>
           </nav>
 
-          {/* Mobile Menu Button */}
           <div className="flex items-center md:hidden gap-4">
-             <Link href="/cart" className="relative p-2">
+             <Link href="/cart" className="relative p-2 text-[#1A1A1A] dark:text-[#FAF7F2]">
                 <CartIcon />
                 {itemCount > 0 && (
-                  <span className="absolute top-0 right-0 px-1.5 py-0.5 bg-[#1A1A1A] text-[#FAF7F2] text-[10px] font-bold rounded-full">
+                  <span className="absolute top-0 right-0 px-1.5 py-0.5 bg-[#1A1A1A] text-[#FAF7F2] dark:bg-[#FAF7F2] dark:text-[#14120E] text-[10px] font-bold rounded-full">
                     {itemCount}
                   </span>
                 )}
              </Link>
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-[#1A1A1A]"
+              className="p-2 text-[#1A1A1A] dark:text-[#FAF7F2]"
               aria-label="Toggle menu"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,21 +71,26 @@ export function Header() {
 
       {/* Mobile Dropdown */}
       {isMenuOpen && (
-        <div className="md:hidden bg-[#FAF7F2] border-t border-[#F5F0E6] px-4 pt-2 pb-6 space-y-2 shadow-inner">
+        <div className="md:hidden bg-[#FAF7F2] dark:bg-[#14120E] border-t border-[#F5F0E6] dark:border-[#2E2920] px-4 pt-2 pb-6 space-y-2 shadow-inner transition-colors">
           <Link 
             href="/products" 
-            className="block py-3 text-lg font-medium text-[#1A1A1A]"
+            className="block py-3 text-lg font-medium text-[#1A1A1A] dark:text-[#FAF7F2]"
             onClick={() => setIsMenuOpen(false)}
           >
             Products
           </Link>
           <Link 
             href="/cart" 
-            className="block py-3 text-lg font-medium text-[#1A1A1A]"
+            className="block py-3 text-lg font-medium text-[#1A1A1A] dark:text-[#FAF7F2]"
             onClick={() => setIsMenuOpen(false)}
           >
             Cart ({itemCount})
           </Link>
+          
+          <div className="pt-4 border-t border-[#F5F0E6] dark:border-[#2E2920] flex items-center justify-between">
+            <span className="text-sm font-medium text-[#4B5563] dark:text-[#A39E93]">Switch Appearance</span>
+            <ThemeToggle />
+          </div>
         </div>
       )}
     </header>
