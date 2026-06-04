@@ -23,9 +23,15 @@ export default function ProductDetailsPage() {
   useEffect(() => {
     if (!productId) return;
 
+
     async function loadProduct() {
       try {
         setLoading(true);
+        if (productId === null || isNaN(productId)) {
+          setError("Invalid product ID");
+          setLoading(false);
+          return;
+        }
         const productData = await getProductById(productId);
         setProduct(productData);
         setError(null);
@@ -168,11 +174,10 @@ export default function ProductDetailsPage() {
                 </div>
                 <button
                   onClick={handleAddToCart}
-                  className={`flex-1 px-6 py-3 rounded-lg font-bold text-white text-lg transition-colors ${
-                    isAdded
+                  className={`flex-1 px-6 py-3 rounded-lg font-bold text-white text-lg transition-colors ${isAdded
                       ? 'bg-green-600 hover:bg-green-700'
                       : 'bg-[#1A1A1A] hover:bg-[#4B5563]'
-                  }`}
+                    }`}
                 >
                   {isAdded ? '✓ Added to Cart' : 'Add to Cart'}
                 </button>
